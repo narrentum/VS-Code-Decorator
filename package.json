@@ -1,0 +1,159 @@
+{
+  "name": "code-decorator",
+  "displayName": "Code Decorator",
+  "description": "A powerful VS Code extension that supports multiple decoration rules with configurable patterns and colors",
+  "version": "0.0.4",
+  "icon": "icon.png",
+  "license": "MIT",
+  "publisher": "code-decorator",
+  "author": {
+    "name": "Code Decorator Team"
+  },
+  "files": [
+    "out/**",
+    "package.json",
+    "README.md",
+    "icon.png",
+    "images/**"
+  ],
+  "keywords": [
+    "decoration",
+    "highlight",
+    "pattern",
+    "syntax",
+    "color"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/narrentum/VS-Code-Decorator"
+  },
+  "bugs": {
+    "url": "https://github.com/narrentum/VS-Code-Decorator/issues"
+  },
+  "homepage": "https://github.com/narrentum/VS-Code-Decorator#readme",
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "Decorator.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "configuration": {
+      "title": "Code Decorator",
+      "properties": {
+        "codeDecorator.rules": {
+          "type": "array",
+          "default": [
+            {
+              "condition": "using _this",
+              "pattern": "_this",
+              "color": "#0066ff",
+              "backgroundColor": "rgba(0, 102, 255, 0.1)",
+              "borderColor": "#0066ff",
+              "enabled": true,
+              "description": "Default _this highlighting"
+            },
+            {
+              "condition": "",
+              "pattern": "//\\s*TODO:.*?\\[Fixed\\].*",
+              "color": "#888888",
+              "backgroundColor": "",
+              "borderColor": "",
+              "textDecoration": "line-through",
+              "enabled": true,
+              "description": "Strike through fixed TODO items"
+            },
+            {
+              "condition": "",
+              "pattern": "//\\s*TODO:.*?\\[QA\\].*",
+              "color": "#ff8c00",
+              "backgroundColor": "",
+              "borderColor": "",
+              "textDecoration": "",
+              "enabled": true,
+              "description": "Highlight QA TODO items in orange"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition": {
+                "type": "string",
+                "description": "Pattern that triggers this decoration rule (leave empty for always active)"
+              },
+              "pattern": {
+                "type": "string", 
+                "description": "Pattern to highlight when condition is found (supports regex)"
+              },
+              "color": {
+                "type": "string",
+                "description": "Text color (hex color)",
+                "default": "#0066ff"
+              },
+              "backgroundColor": {
+                "type": "string",
+                "description": "Background color",
+                "default": "rgba(0, 102, 255, 0.1)"
+              },
+              "borderColor": {
+                "type": "string",
+                "description": "Border color (leave empty or 'transparent' for no border)", 
+                "default": "#0066ff"
+              },
+              "textDecoration": {
+                "type": "string",
+                "description": "Text decoration: 'line-through', 'underline', 'overline', or combination like 'underline line-through'",
+                "default": ""
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Enable this decoration rule",
+                "default": true
+              },
+              "description": {
+                "type": "string",
+                "description": "Rule description for reference"
+              }
+            },
+            "required": ["pattern"]
+          },
+          "description": "List of decoration rules. Each rule has a condition (trigger), pattern (what to highlight), and styling."
+        },
+        "codeDecorator.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable all code decoration"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.104.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

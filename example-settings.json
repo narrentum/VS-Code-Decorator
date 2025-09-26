@@ -1,0 +1,78 @@
+{
+  "codeDecorator.rules": [
+    {
+      "condition": "using _this",
+      "pattern": "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)(?=(?:[^']*'[^']*')*[^']*$)(?=(?:[^`]*`[^`]*`)*[^`]*$)\\b_this\\b",
+      "color": "#569CD6",
+      "backgroundColor": "rgba(0, 102, 255, 0.1)",
+      "enabled": true,
+      "description": "Rule 1: Main _this functionality - highlight _this variables in blue (excluding strings)"
+    },
+    {
+      "condition": "",
+      "pattern": "//\\s*TODO:.*?\\[Fixed\\].*",
+      "color": "#888888",
+      "backgroundColor": "",
+      "borderColor": "",
+      "textDecoration": "line-through",
+      "enabled": true,
+      "description": "Rule 2: TODO [Fixed] - strike through completed TODO items"
+    },
+    {
+      "condition": "",
+      "pattern": "//\\s*TODO:.*?\\[QA\\].*",
+      "color": "#ff8c00",
+      "backgroundColor": "",
+      "borderColor": "",
+      "enabled": true,
+      "description": "Rule 3: TODO [QA] - orange text for TODO items under QA review"
+    },
+    {
+      "condition": "",
+      "pattern": "//\\s*TODO:.*?\\[InProgress\\].*",
+      "color": "#1e90ff",
+      "backgroundColor": "",
+      "borderColor": "",
+      "enabled": true,
+      "description": "Rule 4: TODO [InProgress] - blue color for TODO items in progress"
+    },
+    {
+      "condition": "",
+      "pattern": "//\\s*FIXME:.*?\\[Fixed\\].*",
+      "color": "#888888",
+      "backgroundColor": "",
+      "borderColor": "",
+      "textDecoration": "line-through",
+      "enabled": true,
+      "description": "Rule 5: FIXME [Fixed] - strike through fixed FIXME items"
+    },
+    {
+      "condition": "import React",
+      "pattern": "React",
+      "color": "#61dafb",
+      "backgroundColor": "rgba(97, 218, 251, 0.1)",
+      "borderColor": "",
+      "enabled": true,
+      "description": "Rule 6: React components - highlight React in cyan (with condition)"
+    },
+    {
+      "condition": "",
+      "pattern": "console\\.(log|error|warn|info)",
+      "color": "#ff6b35",
+      "backgroundColor": "rgba(255, 107, 53, 0.1)",
+      "borderColor": "",
+      "enabled": true,
+      "description": "Rule 7: Console - always highlight console calls"
+    },
+    {
+      "condition": "",
+      "pattern": "//\\s*(\\[CRITICAL\\]|\\[URGENT\\]|\\[SECURITY\\]).*",
+      "color": "#ff0000",
+      "backgroundColor": "rgba(255, 0, 0, 0.1)",
+      "borderColor": "",
+      "enabled": true,
+      "description": "Rule 8: Critical comments - highlight in red color"
+    }
+  ],
+  "codeDecorator.enabled": true
+}
