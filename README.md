@@ -136,7 +136,7 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 ##  Installation
 
 ### Method 1: From VSIX
-1. Download `code-decorator-v0.0.4-with-icon.vsix`
+1. Download `code-decorator-v1.0.0.vsix`
 2. In VS Code: `Ctrl+Shift+P` → "Extensions: Install from VSIX..."
 3. Select the downloaded .vsix file
 4. Reload VS Code
