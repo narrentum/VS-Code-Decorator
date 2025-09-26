@@ -2,13 +2,20 @@
   "name": "code-decorator",
   "displayName": "Code Decorator",
   "description": "A powerful VS Code extension that supports multiple decoration rules with configurable patterns and colors",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "code-decorator",
   "author": {
-    "name": "Code Decorator Team"
+    "name": "Code Decorator Team",
+    "email": "narrentum@github.com"
   },
+  "contributors": [
+    {
+      "name": "GitHub Copilot",
+      "role": "AI Assistant & Code Generation"
+    }
+  ],
   "files": [
     "out/**",
     "package.json",

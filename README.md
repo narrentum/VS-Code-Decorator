@@ -139,7 +139,7 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 ### Method 1: From VSIX
 
 **Option A: Manual Download**
-1. Download `code-decorator-v1.0.0.vsix` from [Releases](https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.0.0.vsix)
+1. Download `code-decorator-v1.1.0.vsix` from [Releases](https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.1.0.vsix)
 2. In VS Code: `Ctrl+Shift+P` → "Extensions: Install from VSIX..."
 3. Select the downloaded .vsix file
 4. Reload VS Code
@@ -147,14 +147,14 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 **Option B: Command Line (Linux/Mac)**
 ```bash
 # Download and install
-curl -L "https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.0.0.vsix" -o code-decorator.vsix
+curl -L "https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.1.0.vsix" -o code-decorator.vsix
 code --install-extension code-decorator.vsix
 ```
 
 **Option C: PowerShell (Windows)**
 ```powershell
 # Download and install
-Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.0.0.vsix" -OutFile "code-decorator.vsix"
+Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.1.0.vsix" -OutFile "code-decorator.vsix"
 code --install-extension code-decorator.vsix
 ```
 
@@ -177,7 +177,7 @@ code --install-extension code-decorator.vsix
 4. **Build the extension:**
    - Install VSCE globally: `npm install -g vsce`
    - Create VSIX package: `vsce package`
-   - This creates `code-decorator-1.0.0.vsix`
+   - This creates `code-decorator-1.1.0.vsix`
 
 5. **Install your build:**
    - Press `Ctrl+Shift+P`
@@ -200,6 +200,17 @@ code --install-extension code-decorator.vsix
   - Other syntax highlighting extensions
 
 > **💡 Pro Tip**: This extension's decorations will override your theme's token colors and semantic highlighting. Perfect for creating consistent code highlighting across different themes!
+
+## 🤝 Development & Collaboration
+
+This VS Code extension was developed in collaboration with **GitHub Copilot**, leveraging AI-assisted development for:
+- Code architecture and implementation
+- Advanced regex pattern matching
+- TypeScript best practices
+- VS Code API integration
+- Documentation and examples
+
+The combination of human creativity and AI assistance resulted in a robust, feature-rich extension that handles complex decoration scenarios with ease.
 
 ##  License
 

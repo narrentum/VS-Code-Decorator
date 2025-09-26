@@ -3,4 +3,4 @@ dist
 node_modules
 .vscode-test/
 *.vsix
-!code-decorator-v1.0.0.vsix
+!code-decorator-v1.1.0.vsix
