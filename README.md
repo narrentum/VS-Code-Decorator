@@ -141,10 +141,35 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 3. Select the downloaded .vsix file
 4. Reload VS Code
 
-### Method 2: Development
-1. Clone this repository
-2. Open folder in VS Code
-3. Press `F5` to launch Extension Development Host
+### Method 2: Build from Source
+1. **Clone repository:**
+   ```bash
+   git clone https://github.com/narrentum/VS-Code-Decorator.git
+   cd VS-Code-Decorator
+   ```
+
+2. **Open in VS Code:**
+   ```bash
+   code .
+   ```
+
+3. **Install dependencies:**
+   - Open terminal in VS Code: `Ctrl+Shift+`` (backtick)
+   - Run: `npm install`
+
+4. **Build the extension:**
+   - Install VSCE globally: `npm install -g vsce`
+   - Create VSIX package: `vsce package`
+   - This creates `code-decorator-1.0.0.vsix`
+
+5. **Install your build:**
+   - Press `Ctrl+Shift+P`
+   - Type "Extensions: Install from VSIX..."
+   - Select your generated `.vsix` file
+   - Reload VS Code
+
+6. **Test during development:**
+   - Press `F5` to launch Extension Development Host (for testing changes)
 
 ## 🎯 Advanced Features
 
