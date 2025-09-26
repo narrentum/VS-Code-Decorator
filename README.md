@@ -11,6 +11,7 @@ A powerful VS Code extension that supports multiple decoration rules. Each rule 
 - **Custom Styling**: Individual colors, backgrounds, and borders for each rule
 - **Real-time Updates**: Decorations update instantly when typing or changing settings
 - **Language Agnostic**: Works with any programming language
+- **Theme Override**: Successfully overrides both theme colors and `editor.semanticTokenColorCustomizations`
 
 ## 🔧 Configuration
 
@@ -136,10 +137,26 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 ##  Installation
 
 ### Method 1: From VSIX
-1. Download `code-decorator-v1.0.0.vsix`
+
+**Option A: Manual Download**
+1. Download `code-decorator-v1.0.0.vsix` from [Releases](https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.0.0.vsix)
 2. In VS Code: `Ctrl+Shift+P` → "Extensions: Install from VSIX..."
 3. Select the downloaded .vsix file
 4. Reload VS Code
+
+**Option B: Command Line (Linux/Mac)**
+```bash
+# Download and install
+curl -L "https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.0.0.vsix" -o code-decorator.vsix
+code --install-extension code-decorator.vsix
+```
+
+**Option C: PowerShell (Windows)**
+```powershell
+# Download and install
+Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/raw/main/code-decorator-v1.0.0.vsix" -OutFile "code-decorator.vsix"
+code --install-extension code-decorator.vsix
+```
 
 ### Method 2: Build from Source
 1. **Clone repository:**
@@ -177,6 +194,12 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 - **Rule Priority**: Rules are processed in order, each with independent styling
 - **Individual Control**: Enable/disable individual rules without affecting others
 - **Live Updates**: Changes in settings apply immediately without restart
+- **Settings Override Priority**: Extension decorations take precedence over:
+  - VS Code theme colors
+  - `editor.semanticTokenColorCustomizations`
+  - Other syntax highlighting extensions
+
+> **💡 Pro Tip**: This extension's decorations will override your theme's token colors and semantic highlighting. Perfect for creating consistent code highlighting across different themes!
 
 ##  License
 
