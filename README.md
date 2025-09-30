@@ -242,18 +242,6 @@ The combination of human creativity and AI assistance resulted in a robust, feat
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📸 Screenshots & Demo
-
-![Code Decorator in Action](https://raw.githubusercontent.com/narrentum/VS-Code-Decorator/main/images/preview.png)
-
-*Example showing the Code Decorator extension highlighting different patterns:*
-- `_this` variables in blue (when "using _this" condition is met)
-- TODO comments with different statuses ([Fixed], [QA], [InProgress])
-- Console statements always highlighted
-- Critical comments with borders and underlines
-
----
-
 💡 **Tip**: Use the `example-settings.json` file as a starting point for your configuration!
 
 ## Example settings (per-group highlights)
