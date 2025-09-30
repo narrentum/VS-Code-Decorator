@@ -14,6 +14,7 @@ interface DecorationRule {
 	groupColors?: string[];
 	groupBackgrounds?: string[];
 	groupTextDecorations?: string[];
+	ignoreInString?: boolean;
 	color?: string;
 	backgroundColor?: string;
 	borderColor?: string;
@@ -195,6 +196,36 @@ export function activate(context: vscode.ExtensionContext) {
 			patternRegex.lastIndex = 0;
 
 			while ((match = patternRegex.exec(text)) !== null) {
+			// If rule requests ignoring matches inside strings, do a quick check
+			const matchStart = match.index;
+			const matchEnd = match.index + match[0].length;
+				// If this rule wants to ignore matches inside string literals, run a quick check on the match position
+				if (rule.ignoreInString) {
+					// We'll check the character counts of quotes before the match in the whole document up to matchStart
+					// This is a heuristic: counts of unescaped quotes (", ', `) mod 2 indicate if inside a literal.
+					const before = text.slice(0, matchStart);
+					const countUnescaped = (s: string, q: string) => {
+						let c = 0;
+						for (let i = 0; i < s.length; i++) {
+							if (s[i] === q) {
+								// count only if not escaped
+								if (i === 0 || s[i - 1] !== '\\') c++;
+							}
+						}
+						return c;
+					};
+
+					const dbl = countUnescaped(before, '"');
+					const sgl = countUnescaped(before, "'");
+					const tpl = countUnescaped(before, '`');
+
+					// If any of the counts is odd, we assume the match is inside that type of string and skip
+					if ((dbl % 2) === 1 || (sgl % 2) === 1 || (tpl % 2) === 1) {
+						// skip this match entirely
+						continue;
+					}
+				}
+
 				// If capture groups are present and there are per-group decoration types, collect decorations per group
 				if (match.length > 1 && rule.groupColors && Array.isArray(rule.groupColors) && rule.groupColors.length > 0) {
 					for (let gi = 0; gi < rule.groupColors.length; gi++) {

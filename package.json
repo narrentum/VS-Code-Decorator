@@ -183,6 +183,11 @@
                 "description": "Text decoration: 'line-through', 'underline', 'overline', or combination like 'underline line-through'",
                 "default": ""
               },
+              "ignoreInString": {
+                "type": "boolean",
+                "description": "If true, skip matches that are inside string literals (single, double or template quotes)",
+                "default": false
+              },
               "enabled": {
                 "type": "boolean",
                 "description": "Enable this decoration rule",
