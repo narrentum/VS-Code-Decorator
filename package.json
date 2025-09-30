@@ -28,7 +28,16 @@
     "highlight",
     "pattern",
     "syntax",
-    "color"
+    "color",
+    "code-decorator",
+    "code-decoration",
+    "code-highlighting",
+    "syntax-highlighting",
+    "editor-decorations",
+    "vscode-extension",
+    "todo",
+    "annotations",
+    "productivity"
   ],
   "repository": {
     "type": "git",
