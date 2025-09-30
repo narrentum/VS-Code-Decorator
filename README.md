@@ -50,97 +50,101 @@ Go to **File > Preferences > Settings** and search for "Code Decorator".
 
 ```json
 {
-  "codeDecorator.rules": [
-    // Rule 1: Main _this functionality
-    {
-      "condition": "using _this",
-      "pattern": "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)(?=(?:[^']*'[^']*')*[^']*$)(?=(?:[^`]*`[^`]*`)*[^`]*$)\\b_this\\b",
-      "color": "#569CD6",
-      "backgroundColor": "rgba(0, 102, 255, 0.1)",
-      "enabled": true,
-      "description": "Highlight _this variables in blue (excluding strings)"
-    },
-    
-    // Rule 2: TODO [Fixed] - strike through with gray
-    {
-      "condition": "",
-      "pattern": "//\\s*TODO:.*?\\[Fixed\\].*",
-      "color": "#888888",
-      "backgroundColor": "",
-      "borderColor": "",
-      "textDecoration": "line-through",
-      "enabled": true,
-      "description": "Strike through completed TODO items with [Fixed] status"
-    },
-    
-    // Rule 3: TODO [QA] - orange text
-    {
-      "condition": "",
-      "pattern": "//\\s*TODO:.*?\\[QA\\].*",
-      "color": "#ff8c00",
-      "backgroundColor": "",
-      "borderColor": "",
-      "enabled": true,
-      "description": "TODO items under QA review - orange text"
-    },
-    
-    // Rule 4: TODO [InProgress] - blue text
-    {
-      "condition": "",
-      "pattern": "//\\s*TODO:.*?\\[InProgress\\].*",
-      "color": "#1e90ff",
-      "backgroundColor": "",
-      "borderColor": "",
-      "enabled": true,
-      "description": "TODO items in progress - blue color"
-    },
-    
-    // Rule 5: FIXME [Fixed] - also strike through
-    {
-      "condition": "",
-      "pattern": "//\\s*FIXME:.*?\\[Fixed\\].*",
-      "color": "#888888",
-      "backgroundColor": "",
-      "borderColor": "",
-      "textDecoration": "line-through",
-      "enabled": true,
-      "description": "Strike through fixed FIXME items"
-    },
-    
-    // Rule 6: React components (with condition)
-    {
-      "condition": "import React",
-      "pattern": "React",
-      "color": "#61dafb",
-      "backgroundColor": "rgba(97, 218, 251, 0.1)",
-      "borderColor": "",
-      "enabled": true,
-      "description": "Highlight React in cyan"
-    },
-    
-    // Rule 7: Console (always active)
-    {
-      "condition": "",
-      "pattern": "console\\.(log|error|warn|info)",
-      "color": "#ff6b35",
-      "backgroundColor": "rgba(255, 107, 53, 0.1)",
-      "borderColor": "",
-      "enabled": true,
-      "description": "Always highlight console calls"
-    },
-    
-    // Rule 8: Critical comments
-    {
-      "condition": "",
-      "pattern": "//\\s*(\\[CRITICAL\\]|\\[URGENT\\]|\\[SECURITY\\]).*",
-      "color": "#ff0000",
-      "backgroundColor": "rgba(255, 0, 0, 0.1)",
-      "borderColor": "",
-      "enabled": true,
-      "description": "Critical comments - red color"
-    }
-  ],
-  "codeDecorator.enabled": true
+  "codeDecorator": {
+    "enabled": true,
+    "ignoreInComments": false,
+    "ignoreInString": false,
+    "rules": [
+      {
+        "enabled": true,
+        "ignoreInString": false,
+        "ignoreInComments": true,
+        "condition": "using _this",
+        "pattern": "\\b_this\\b",
+        "color": "#569CD6",
+        "backgroundColor": "#d0d65600",
+        "borderColor": "#00000000",
+        "textDecoration": "none",
+        "description": "Выделять _this синим"
+      },
+      {
+        "enabled": true,
+        "ignoreInComments": true,
+        "ignoreInString": true,
+        "flags": "gm",
+        "pattern": "^\\s*(?:\\bDebug.*\\..*)(LogWarning)",
+        "groupColors": ["#ff8800"],
+        "groupBackgrounds": [""],
+        "groupTextDecorations": ["underline"],
+        "description": "Debug.LogWarning"
+      },
+      {
+        "enabled": true,
+        "ignoreInComments": true,
+        "ignoreInString": true,
+        "flags": "gm",
+        "pattern": "^\\s*(?:\\bDebug.*\\.)(LogError)",
+        "groupColors": ["#ff0000"],
+        "description": "Debug.LogError"
+      },
+      {
+        "enabled": true,
+        "ignoreInComments": true,
+        "ignoreInString": true,
+        "flags": "gm",
+        "pattern": "^\\s*(?:\\bDebug.*\\.)(Log)\\b",
+        "groupColors": ["#80b9ff"],
+        "description": "Debug.Log"
+      },
+      {
+        "enabled": true,
+        "flags": "i",
+        "pattern": "//\\s*TODO:.*?\\[Fixed\\].*",
+        "color": "#888888",
+        "textDecoration": "line-through",
+        "description": "Перечёркнутые TODO с [Fixed]"
+      },
+      {
+        "enabled": true,
+        "flags": "ms",
+        "pattern": "//\\s*TODO:.*?\\[QA\\].*",
+        "color": "#ff8c00",
+        "description": "TODO [QA] - orange text for TODO items under QA review"
+      },
+      {
+        "enabled": true,
+        "pattern": "//\\s*TODO:.*?\\[InProgress\\].*",
+        "color": "#1e90ff",
+        "description": "TODO [InProgress] - blue color for TODO items in progress"
+      },
+      {
+        "enabled": true,
+        "flags": "ms",
+        "pattern": "/\\*\\s*TODO[\\s\\S]*?\\*/",
+        "color": "#ff8c00",
+        "description": "Multi-line block TODO"
+      },
+      {
+        "enabled": true,
+        "ignoreInComments": true,
+        "ignoreInString": true,
+        "condition": "import React",
+        "conditionFlags": "i",
+        "pattern": "\\bReact\\b",
+        "color": "#61dafb",
+        "description": "React components"
+      },
+      {
+        "enabled": true,
+        "ignoreInComments": true,
+        "ignoreInString": true,
+        "flags": "m",
+        "pattern": "^\\s*console\\.(log|error|warn|info)",
+        "color": "#ff6b35",
+        "description": "Console calls (multiline aware)"
+      }
+    ]
+  }
 }
 ```
 
