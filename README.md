@@ -25,26 +25,45 @@ A powerful VS Code extension that supports multiple decoration rules. Each rule 
 
 ## 🔧 Configuration
 
-Go to **File > Preferences > Settings** and search for "Code Decorator".
+Open File → Preferences → Settings and search for "Code Decorator".
 
-### Main Settings:
+Main settings live under the top-level `codeDecorator` object:
 
-- **`codeDecorator.rules`** - Array of decoration rules
-- **`codeDecorator.enabled`** - Global enable/disable toggle
+- `codeDecorator.enabled` — global enable/disable toggle
+- `codeDecorator.ignoreInComments` — global default; if true, rules will skip matches inside comments
+- `codeDecorator.ignoreInString` — global default; if true, rules will skip matches inside string literals
+- `codeDecorator.rules` — array of decoration rules
 
-### Rule Structure:
+Each rule may override the global defaults and supports a number of fields. Color fields use the `color-hex` format so VS Code shows a color picker when editing settings.
+
+Rule structure (valid JSON example):
+
 ```json
 {
-  "condition": "trigger pattern",      // When this is found...
-  "pattern": "what to highlight",      // ...highlight this
-  "color": "#hex-color",              // Text color
-  "backgroundColor": "rgba(...)",      // Background color
-  "borderColor": "#hex-color",        // Border color
-  "textDecoration": "line-through",   // Text decoration: line-through, underline, etc.
-  "enabled": true,                    // Enable this rule
-  "description": "Rule description"   // For reference
+  "condition": "import React",
+  "conditionFlags": "i",
+  "pattern": "\\bReact\\b",
+  "flags": "m",
+  "ignoreInComments": true,
+  "ignoreInString": true,
+  "color": "#61dafb",
+  "backgroundColor": "#61dafb1a",
+  "borderColor": "#61dafb",
+  "textDecoration": "",
+  "groupColors": ["#ff8800"],
+  "groupBackgrounds": ["#00000000"],
+  "groupTextDecorations": ["underline"],
+  "enabled": true,
+  "description": "Example rule: highlights React when import exists"
 }
 ```
+
+Notes:
+- `condition` and `pattern` accept regular expressions. Use `condition` to make a rule active only when some context exists in the file.
+- `flags` control the main pattern (e.g., `g`, `m`, `s`, `i`). The extension ensures the `g` flag is present for global search when needed.
+- `conditionFlags` control flags for the `condition` regex (no `g` required).
+- Use `groupColors`, `groupBackgrounds`, and `groupTextDecorations` to style specific capture groups from your regex; the first array element targets the first capture group, etc.
+- `ignoreInComments` / `ignoreInString` can be set per-rule or inherited from the top-level defaults.
 
 ## 📝 Example Configuration
 
