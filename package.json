@@ -2,7 +2,7 @@
   "name": "code-decorator",
   "displayName": "Code Decorator",
   "description": "A powerful VS Code extension that supports multiple decoration rules with configurable patterns and colors",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "code-decorator",
@@ -144,7 +144,7 @@
                 "type": "string",
                   "description": "Background color",
                   "format": "color-hex",
-                  "default": "rgba(0, 102, 255, 0.1)"
+                  "default": "#0066ff1a"
               },
               "groupColors": {
                 "type": "array",
