@@ -38,9 +38,25 @@ export function activate(context: vscode.ExtensionContext) {
 	// Function to get current configuration
 	function getConfiguration() {
 		const config = vscode.workspace.getConfiguration('codeDecorator');
+		// Support two shapes for settings:
+		// 1) Old: "codeDecorator.rules" is an array of rule objects
+		// 2) New: "codeDecorator.rules" is an object: { ignoreInCommentsDefault, ignoreInStringDefault, rules: [...] }
+		const rawRulesSetting: any = config.get('rules');
+		let rules: DecorationRule[] = [];
+		let ignoreInCommentsDefault = false;
+		let ignoreInStringDefault = false;
+		if (Array.isArray(rawRulesSetting)) {
+			rules = rawRulesSetting as DecorationRule[];
+		} else if (rawRulesSetting && typeof rawRulesSetting === 'object') {
+			ignoreInCommentsDefault = !!rawRulesSetting.ignoreInCommentsDefault;
+			ignoreInStringDefault = !!rawRulesSetting.ignoreInStringDefault;
+			rules = Array.isArray(rawRulesSetting.rules) ? rawRulesSetting.rules : [];
+		}
 		return {
-			rules: config.get<DecorationRule[]>('rules', []),
-			enabled: config.get<boolean>('enabled', true)
+			rules,
+			enabled: config.get<boolean>('enabled', true),
+			ignoreInCommentsDefault,
+			ignoreInStringDefault
 		};
 	}
 
@@ -200,8 +216,9 @@ export function activate(context: vscode.ExtensionContext) {
 			// If rule requests ignoring matches inside strings, do a quick check
 			const matchStart = match.index;
 			const matchEnd = match.index + match[0].length;
-				// If this rule wants to ignore matches inside string literals, run a quick check on the match position
-				if (rule.ignoreInString) {
+				// Decide whether this rule should ignore matches inside string literals (rule-level override or default)
+				const ruleIgnoreInString = typeof rule.ignoreInString === 'boolean' ? rule.ignoreInString : config.ignoreInStringDefault;
+				if (ruleIgnoreInString) {
 					// We'll check the character counts of quotes before the match in the whole document up to matchStart
 					// This is a heuristic: counts of unescaped quotes (", ', `) mod 2 indicate if inside a literal.
 					const before = text.slice(0, matchStart);
@@ -228,7 +245,8 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 
 				// If rule requests ignoring matches inside comments, do a quick check
-				if (rule.ignoreInComments) {
+				const ruleIgnoreInComments = typeof rule.ignoreInComments === 'boolean' ? rule.ignoreInComments : config.ignoreInCommentsDefault;
+				if (ruleIgnoreInComments) {
 					// Quick check for single-line comment: if '//' appears before match on the same line
 					const lineStart = text.lastIndexOf('\n', matchStart) + 1; // 0 if not found
 					const linePrefix = text.slice(lineStart, matchStart);
