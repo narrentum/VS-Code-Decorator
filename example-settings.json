@@ -10,6 +10,16 @@
     },
     {
       "condition": "",
+      "pattern": "^(?!\\s*//).*?(?:Debug\\.)?(LogWarning)",
+      "flags": "gm",
+      "groupColors": ["#ff8800"],
+      "groupBackgrounds": [""],
+      "groupTextDecorations": ["underline"],
+      "enabled": true,
+      "description": "Highlight only the LogWarning part (orange underline) and skip lines that begin with //"
+    },
+    {
+      "condition": "",
       "pattern": "//\\s*TODO:.*?\\[Fixed\\].*",
       "color": "#888888",
       "backgroundColor": "",

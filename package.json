@@ -146,11 +146,34 @@
                   "format": "color-hex",
                   "default": "rgba(0, 102, 255, 0.1)"
               },
+              "groupColors": {
+                "type": "array",
+                "description": "Per-capture-group text colors (hex color strings)",
+                "items": {
+                  "type": "string",
+                  "format": "color-hex"
+                }
+              },
+              "groupBackgrounds": {
+                "type": "array",
+                "description": "Per-capture-group background colors (hex strings)",
+                "items": {
+                  "type": "string",
+                  "format": "color-hex"
+                }
+              },
               "borderColor": {
                 "type": "string",
                   "description": "Border color (leave empty or 'transparent' for no border)", 
                   "format": "color-hex",
                   "default": "#0066ff"
+              },
+              "groupTextDecorations": {
+                "type": "array",
+                "description": "Per-capture-group text decorations (e.g. 'underline', 'line-through')",
+                "items": {
+                  "type": "string"
+                }
               },
               "textDecoration": {
                 "type": "string",
