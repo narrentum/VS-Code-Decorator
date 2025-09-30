@@ -229,3 +229,25 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 💡 **Tip**: Use the `example-settings.json` file as a starting point for your configuration!
+
+## Example settings (per-group highlights)
+
+If you'd like to highlight only a specific capture group (for example, color only `LogWarning` and not the `Debug.` prefix), use capture groups in your pattern and the `groupColors` / `groupBackgrounds` / `groupTextDecorations` arrays to style each group.
+
+Example (copy into your settings.json):
+
+```json
+"codeDecorator.rules": [
+  {
+    "pattern": "^(?!\\s*//).*?(?:Debug\\.)?(LogWarning)",
+    "flags": "gm",
+    "groupColors": ["#ff8800"],
+    "groupTextDecorations": ["underline"],
+    "description": "Highlight only the LogWarning part (orange underline) and skip lines that begin with //"
+  }
+]
+```
+
+Notes:
+- The example uses a negative lookahead `^(?!\\s*//)` to skip lines that start with `//` (single-line comments).
+- `groupColors` maps to the capture groups in your regex; the first entry colors the first capture group, and so on.

@@ -2,7 +2,7 @@
   "name": "code-decorator",
   "displayName": "Code Decorator",
   "description": "A powerful VS Code extension that supports multiple decoration rules with configurable patterns and colors",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "code-decorator",
@@ -54,6 +54,11 @@
         "command": "Decorator.helloWorld",
         "title": "Hello World"
       }
+      ,
+      {
+        "command": "codeDecorator.toggle",
+        "title": "Toggle Code Decorator"
+      }
     ],
     "configuration": {
       "title": "Code Decorator",
@@ -61,6 +66,33 @@
         "codeDecorator.rules": {
           "type": "array",
           "default": [
+            {
+              "condition": "",
+              "pattern": "\\bDebug\\.LogWarning\\b",
+              "color": "#d1af27",
+              "backgroundColor": "",
+              "borderColor": "",
+              "enabled": true,
+              "description": "Highlight Debug.LogWarning calls"
+            },
+            {
+              "condition": "",
+              "pattern": "\\bDebug\\.LogError\\b",
+              "color": "#ff0000",
+              "backgroundColor": "",
+              "borderColor": "",
+              "enabled": true,
+              "description": "Highlight Debug.LogError calls"
+            },
+            {
+              "condition": "",
+              "pattern": "\\bDebug\\.Log\\b",
+              "color": "#80b9ff",
+              "backgroundColor": "",
+              "borderColor": "",
+              "enabled": true,
+              "description": "Highlight Debug.Log calls"
+            },
             {
               "condition": "using _this",
               "pattern": "_this",
@@ -104,18 +136,21 @@
               },
               "color": {
                 "type": "string",
-                "description": "Text color (hex color)",
+                  "description": "Text color (hex color)",
+                  "format": "color-hex",
                 "default": "#0066ff"
               },
               "backgroundColor": {
                 "type": "string",
-                "description": "Background color",
-                "default": "rgba(0, 102, 255, 0.1)"
+                  "description": "Background color",
+                  "format": "color-hex",
+                  "default": "rgba(0, 102, 255, 0.1)"
               },
               "borderColor": {
                 "type": "string",
-                "description": "Border color (leave empty or 'transparent' for no border)", 
-                "default": "#0066ff"
+                  "description": "Border color (leave empty or 'transparent' for no border)", 
+                  "format": "color-hex",
+                  "default": "#0066ff"
               },
               "textDecoration": {
                 "type": "string",
