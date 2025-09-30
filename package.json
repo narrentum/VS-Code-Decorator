@@ -2,7 +2,7 @@
   "name": "code-decorator",
   "displayName": "Code Decorator",
   "description": "A powerful VS Code extension that supports multiple decoration rules with configurable patterns and colors",
-  "version": "1.1.3",
+  "version": "1.1.1",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "code-decorator",
@@ -152,7 +152,8 @@
                 "items": {
                   "type": "string",
                   "format": "color-hex"
-                }
+                },
+                "default": []
               },
               "groupBackgrounds": {
                 "type": "array",
@@ -160,7 +161,8 @@
                 "items": {
                   "type": "string",
                   "format": "color-hex"
-                }
+                },
+                "default": []
               },
               "borderColor": {
                 "type": "string",
@@ -173,7 +175,8 @@
                 "description": "Per-capture-group text decorations (e.g. 'underline', 'line-through')",
                 "items": {
                   "type": "string"
-                }
+                },
+                "default": []
               },
               "textDecoration": {
                 "type": "string",
