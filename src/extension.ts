@@ -15,6 +15,7 @@ interface DecorationRule {
 	groupBackgrounds?: string[];
 	groupTextDecorations?: string[];
 	ignoreInString?: boolean;
+	ignoreInComments?: boolean;
 	color?: string;
 	backgroundColor?: string;
 	borderColor?: string;
@@ -223,6 +224,26 @@ export function activate(context: vscode.ExtensionContext) {
 					if ((dbl % 2) === 1 || (sgl % 2) === 1 || (tpl % 2) === 1) {
 						// skip this match entirely
 						continue;
+					}
+				}
+
+				// If rule requests ignoring matches inside comments, do a quick check
+				if (rule.ignoreInComments) {
+					// Quick check for single-line comment: if '//' appears before match on the same line
+					const lineStart = text.lastIndexOf('\n', matchStart) + 1; // 0 if not found
+					const linePrefix = text.slice(lineStart, matchStart);
+					if (linePrefix.indexOf('//') !== -1) {
+						continue; // inside single-line comment
+					}
+
+					// Quick check for block comment by searching for nearest '/*' before and '*/' after
+					const lastOpen = text.lastIndexOf('/*', matchStart);
+					if (lastOpen !== -1) {
+						const nextClose = text.indexOf('*/', lastOpen);
+						if (nextClose === -1 || nextClose > matchStart) {
+							// We're inside a /* ... */ block (no closing before match)
+							continue;
+						}
 					}
 				}
 
