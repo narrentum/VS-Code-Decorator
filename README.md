@@ -174,7 +174,7 @@ Method 1: From VSIX
 Option A — Manual download and install
 1. Download the VSIX for the release (example):
 
-  https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.1/code-decorator-1.2.1.vsix
+  https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.2/code-decorator-1.2.2.vsix
 
 2. In VS Code: open the Command Palette (Ctrl+Shift+P) → "Extensions: Install from VSIX..."
 3. Select the downloaded `.vsix` file and reload the editor.
@@ -182,14 +182,14 @@ Option A — Manual download and install
 Option B — Command line (macOS / Linux)
 ```bash
 # Download and install
-curl -L "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.1/code-decorator-1.2.1.vsix" -o code-decorator.vsix
+curl -L "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.2/code-decorator-1.2.2.vsix" -o code-decorator.vsix
 code --install-extension code-decorator.vsix
 ```
 
 Option C — PowerShell (Windows)
 ```powershell
 # Download and install
-Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.1/code-decorator-1.2.1.vsix" -OutFile "code-decorator.vsix"
+Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.2/code-decorator-1.2.2.vsix" -OutFile "code-decorator.vsix"
 code --install-extension code-decorator.vsix
 ```
 
