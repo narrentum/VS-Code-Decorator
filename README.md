@@ -13,6 +13,16 @@ A powerful VS Code extension that supports multiple decoration rules. Each rule 
 - **Language Agnostic**: Works with any programming language
 - **Theme Override**: Successfully overrides both theme colors and `editor.semanticTokenColorCustomizations`
 
+## What's new in v1.2.0
+
+- Top-level `codeDecorator` object support and global defaults: `ignoreInComments` and `ignoreInString`.
+- Per-capture-group styling: `groupColors`, `groupBackgrounds`, and `groupTextDecorations` to target specific regex capture groups.
+- Per-rule options: `flags`, `conditionFlags`, `ignoreInComments`, `ignoreInString` and `textDecoration` (strikethrough/underline).
+- Settings UI improvements: color pickers enabled via `format: "color-hex"` for color fields.
+- Runtime toggle command: `codeDecorator.toggle` to enable/disable decorations temporarily.
+- Improved heuristics to ignore matches inside strings and comments (configurable per-rule).
+- Packaged release `code-decorator-1.2.0.vsix` available.
+
 ## 🔧 Configuration
 
 Go to **File > Preferences > Settings** and search for "Code Decorator".

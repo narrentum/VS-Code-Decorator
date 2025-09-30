@@ -43,13 +43,17 @@ export function activate(context: vscode.ExtensionContext) {
 		// 2) New: "codeDecorator.rules" is an object: { ignoreInCommentsDefault, ignoreInStringDefault, rules: [...] }
 		const rawRulesSetting: any = config.get('rules');
 		let rules: DecorationRule[] = [];
-		let ignoreInCommentsDefault = false;
-		let ignoreInStringDefault = false;
+		// read top-level global defaults (new desired shape)
+		const topIgnoreInComments = config.get<boolean>('ignoreInComments', false);
+		const topIgnoreInString = config.get<boolean>('ignoreInString', false);
+		let ignoreInCommentsDefault = topIgnoreInComments;
+		let ignoreInStringDefault = topIgnoreInString;
 		if (Array.isArray(rawRulesSetting)) {
 			rules = rawRulesSetting as DecorationRule[];
 		} else if (rawRulesSetting && typeof rawRulesSetting === 'object') {
-			ignoreInCommentsDefault = !!rawRulesSetting.ignoreInCommentsDefault;
-			ignoreInStringDefault = !!rawRulesSetting.ignoreInStringDefault;
+			// preserve backward-compatible names inside the rules object
+			ignoreInCommentsDefault = typeof rawRulesSetting.ignoreInCommentsDefault === 'boolean' ? rawRulesSetting.ignoreInCommentsDefault : ignoreInCommentsDefault;
+			ignoreInStringDefault = typeof rawRulesSetting.ignoreInStringDefault === 'boolean' ? rawRulesSetting.ignoreInStringDefault : ignoreInStringDefault;
 			rules = Array.isArray(rawRulesSetting.rules) ? rawRulesSetting.rules : [];
 		}
 		return {

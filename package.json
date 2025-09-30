@@ -2,7 +2,7 @@
   "name": "code-decorator",
   "displayName": "Code Decorator",
   "description": "A powerful VS Code extension that supports multiple decoration rules with configurable patterns and colors",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "code-decorator",
@@ -63,6 +63,61 @@
     "configuration": {
       "title": "Code Decorator",
       "properties": {
+        "codeDecorator": {
+          "type": "object",
+          "description": "Top-level Code Decorator settings object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable/disable all code decoration"
+            },
+            "ignoreInComments": {
+              "type": "boolean",
+              "default": false,
+              "description": "Global default: if true, skip matches that appear inside comments (single-line '//' or block '/* ... */')"
+            },
+            "ignoreInString": {
+              "type": "boolean",
+              "default": false,
+              "description": "Global default: if true, skip matches that are inside string literals (single, double or template quotes)"
+            },
+            "rules": {
+              "type": "array",
+              "default": [
+                {
+                  "condition": "",
+                  "pattern": "\\bDebug\\.LogWarning\\b",
+                  "color": "#d1af27",
+                  "backgroundColor": "",
+                  "borderColor": "",
+                  "enabled": true,
+                  "description": "Highlight Debug.LogWarning calls"
+                }
+              ],
+              "items": {
+                "type": "object",
+                "properties": {
+                  "condition": { "type": "string", "description": "Pattern that triggers this decoration rule (leave empty for always active)" },
+                  "pattern": { "type": "string", "description": "Pattern to highlight when condition is found (supports regex)" },
+                  "color": { "type": "string", "description": "Text color (hex color)", "format": "color-hex", "default": "#0066ff" },
+                  "backgroundColor": { "type": "string", "description": "Background color", "format": "color-hex", "default": "#0066ff1a" },
+                  "groupColors": { "type": "array", "description": "Per-capture-group text colors (hex color strings)", "items": { "type": "string", "format": "color-hex" }, "default": [] },
+                  "groupBackgrounds": { "type": "array", "description": "Per-capture-group background colors (hex strings)", "items": { "type": "string", "format": "color-hex" }, "default": [] },
+                  "borderColor": { "type": "string", "description": "Border color (leave empty or 'transparent' for no border)", "format": "color-hex", "default": "#0066ff" },
+                  "groupTextDecorations": { "type": "array", "description": "Per-capture-group text decorations (e.g. 'underline', 'line-through')", "items": { "type": "string" }, "default": [] },
+                  "textDecoration": { "type": "string", "description": "Text decoration: 'line-through', 'underline', 'overline', or combination like 'underline line-through'", "default": "" },
+                  "ignoreInString": { "type": "boolean", "description": "If true, skip matches that are inside string literals (single, double or template quotes)", "default": false },
+                  "ignoreInComments": { "type": "boolean", "description": "If true, skip matches that appear inside comments (single-line '//' or block '/* ... */')", "default": false },
+                  "enabled": { "type": "boolean", "description": "Enable this decoration rule", "default": true },
+                  "description": { "type": "string", "description": "Rule description for reference" }
+                },
+                "required": ["pattern"]
+              },
+              "description": "List of decoration rules. Each rule has a condition (trigger), pattern (what to highlight), and styling."
+            }
+          }
+        },
         "codeDecorator.rules": {
           "type": "array",
           "default": [
@@ -211,6 +266,16 @@
           "type": "boolean",
           "default": true,
           "description": "Enable/disable all code decoration"
+        },
+        "codeDecorator.ignoreInComments": {
+          "type": "boolean",
+          "default": false,
+          "description": "Global default: if true, skip matches that appear inside comments (single-line '//' or block '/* ... */')"
+        },
+        "codeDecorator.ignoreInString": {
+          "type": "boolean",
+          "default": false,
+          "description": "Global default: if true, skip matches that are inside string literals (single, double or template quotes)"
         }
       }
     }
