@@ -1,11 +1,40 @@
 {
   "codeDecorator": {
     "enabled": true,
-
     "ignoreInComments": false,
     "ignoreInString": false,
+    "native.enabled": true,
+    "native.path": "",
+    "maxFileLength": 500000,
+    "regexTimeoutMs": 50,
+    "debounceMs": 200,
 
     "rules": [
+      {
+        "enabled": true,
+        "kind": "csharpAttributeNames",
+        "languageIds": ["csharp"],
+        "groupColors": ["#8e9bc5"],
+        "textDecoration": "none",
+        "description": "C# attribute names only"
+      },
+      {
+        "settings": ["using keyword", "on: true", "noStr: true", "noComm: true", "flags: gm"],
+        "pattern": "\\busing\\b",
+        "color": "#f96a32",
+        "decor": "none"
+      },
+      {
+        "settings": ["this_ marker", "on: true", "noStr: true", "noComm: false", "flags: gm"],
+        "pattern": "\\b(this)(_)",
+        "groups": ["#569CD6", "#f1f1f1"],
+        "bg": "#261111",
+        "decor": "none"
+      },
+      {
+        "settings": ["brace colors", "on: true", "groups: #e9e9e9,#c49fff,#9fb3ff", "decor: none"],
+        "pattern": "\\{"
+      },
       {
         "enabled": true,
         "ignoreInString": false,

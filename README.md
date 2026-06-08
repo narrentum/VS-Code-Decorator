@@ -8,20 +8,21 @@ A powerful VS Code extension that supports multiple decoration rules. Each rule 
 
 - **Multiple Decoration Rules**: Define unlimited number of (condition, pattern, color) rules
 - **Flexible Pattern Matching**: Both condition and pattern support regex
+- **Native Regex Engine**: Full-document analysis runs in a .NET helper process with regex timeouts
+- **Safe C# Attribute Scanner**: `kind: "csharpAttributeNames"` highlights attribute names without treating brackets inside strings as attribute delimiters
 - **Custom Styling**: Individual colors, backgrounds, and borders for each rule
 - **Real-time Updates**: Decorations update instantly when typing or changing settings
 - **Language Agnostic**: Works with any programming language
 - **Theme Override**: Successfully overrides both theme colors and `editor.semanticTokenColorCustomizations`
 
-## What's new in v1.2.0
+## What's new in v1.3.0
 
-- Top-level `codeDecorator` object support and global defaults: `ignoreInComments` and `ignoreInString`.
-- Per-capture-group styling: `groupColors`, `groupBackgrounds`, and `groupTextDecorations` to target specific regex capture groups.
-- Per-rule options: `flags`, `conditionFlags`, `ignoreInComments`, `ignoreInString` and `textDecoration` (strikethrough/underline).
-- Settings UI improvements: color pickers enabled via `format: "color-hex"` for color fields.
-- Runtime toggle command: `codeDecorator.toggle` to enable/disable decorations temporarily.
-- Improved heuristics to ignore matches inside strings and comments (configurable per-rule).
-- Packaged release `code-decorator-1.2.0.vsix` available.
+- Native .NET helper process for full-document regex analysis, with per-regex timeouts and diagnostics.
+- Safe C# attribute-name scanner via `kind: "csharpAttributeNames"` for attributes with brackets inside string arguments.
+- Compact rule format via `settings`, including aliases `on`, `noStr`, `noComm`, `bg`, `decor`, and `groups`.
+- Debounced async updates with document-version guards to avoid applying stale decoration results.
+- Output Channel diagnostics for invalid regexes, regex timeouts, skipped large files, helper errors, and malformed compact settings.
+- Packaged release `code-decorator-1.3.0.vsix` available.
 
 ## 🔧 Configuration
 
@@ -32,6 +33,11 @@ Main settings live under the top-level `codeDecorator` object:
 - `codeDecorator.enabled` — global enable/disable toggle
 - `codeDecorator.ignoreInComments` — global default; if true, rules will skip matches inside comments
 - `codeDecorator.ignoreInString` — global default; if true, rules will skip matches inside string literals
+- `codeDecorator.native.enabled` — run analysis in the .NET helper process
+- `codeDecorator.native.path` — optional custom path to `CodeDecorator.Core.dll` or a published executable
+- `codeDecorator.maxFileLength` — skip documents larger than this size
+- `codeDecorator.regexTimeoutMs` — timeout for each regex operation in the helper
+- `codeDecorator.debounceMs` — delay before re-running decorations after editor changes
 - `codeDecorator.rules` — array of decoration rules
 
 Each rule may override the global defaults and supports a number of fields. Color fields use the `color-hex` format so VS Code shows a color picker when editing settings.
@@ -40,6 +46,7 @@ Rule structure (valid JSON example):
 
 ```json
 {
+  "kind": "regex",
   "condition": "import React",
   "conditionFlags": "i",
   "pattern": "\\bReact\\b",
@@ -64,6 +71,46 @@ Notes:
 - `conditionFlags` control flags for the `condition` regex (no `g` required).
 - Use `groupColors`, `groupBackgrounds`, and `groupTextDecorations` to style specific capture groups from your regex; the first array element targets the first capture group, etc.
 - `ignoreInComments` / `ignoreInString` can be set per-rule or inherited from the top-level defaults.
+- Use `"kind": "csharpAttributeNames"` for C# attribute names. This path uses a state-machine scanner instead of a large regex, so strings like `"[IHasArray<float>]"` inside attribute arguments are ignored safely.
+
+Compact settings format:
+- Add `settings` as an array of strings to any rule.
+- The first `settings` item without `:` becomes `description`.
+- Other items use `key: value`.
+- Supported aliases: `on` -> `enabled`, `noStr` -> `ignoreInString`, `noComm` -> `ignoreInComments`, `bg` -> `backgroundColor`, `decor` -> `textDecoration`, `groups` -> `groupColors`.
+- Full names such as `enabled`, `ignoreInString`, `ignoreInComments`, `backgroundColor`, `textDecoration`, `groupColors`, `flags`, `color`, `pattern`, and `description` are also supported.
+- Top-level rule fields have priority over values from `settings`.
+
+Compact rule examples:
+
+```json
+{
+  "settings": ["using keyword", "on: true", "noStr: true", "noComm: true", "flags: gm"],
+  "pattern": "\\busing\\b",
+  "color": "#f96a32",
+  "decor": "none"
+}
+```
+
+```json
+{
+  "settings": ["brace colors", "on: true", "groups: #e9e9e9,#c49fff,#9fb3ff", "decor: none"],
+  "pattern": "\\{"
+}
+```
+
+Safe C# attribute rule:
+
+```json
+{
+  "enabled": true,
+  "kind": "csharpAttributeNames",
+  "languageIds": ["csharp"],
+  "groupColors": ["#8e9bc5"],
+  "textDecoration": "none",
+  "description": "C# attribute names only"
+}
+```
 
 ## 📝 Example Configuration
 
@@ -73,7 +120,37 @@ Notes:
     "enabled": true,
     "ignoreInComments": false,
     "ignoreInString": false,
+    "native.enabled": true,
+    "native.path": "",
+    "maxFileLength": 500000,
+    "regexTimeoutMs": 50,
+    "debounceMs": 200,
     "rules": [
+      {
+        "enabled": true,
+        "kind": "csharpAttributeNames",
+        "languageIds": ["csharp"],
+        "groupColors": ["#8e9bc5"],
+        "textDecoration": "none",
+        "description": "C# attribute names only"
+      },
+      {
+        "settings": ["using keyword", "on: true", "noStr: true", "noComm: true", "flags: gm"],
+        "pattern": "\\busing\\b",
+        "color": "#f96a32",
+        "decor": "none"
+      },
+      {
+        "settings": ["this_ marker", "on: true", "noStr: true", "noComm: false", "flags: gm"],
+        "pattern": "\\b(this)(_)",
+        "groups": ["#569CD6", "#f1f1f1"],
+        "bg": "#261111",
+        "decor": "none"
+      },
+      {
+        "settings": ["brace colors", "on: true", "groups: #e9e9e9,#c49fff,#9fb3ff", "decor: none"],
+        "pattern": "\\{"
+      },
       {
         "enabled": true,
         "ignoreInString": false,
@@ -174,7 +251,7 @@ Method 1: From VSIX
 Option A — Manual download and install
 1. Download the VSIX for the release (example):
 
-  https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.3/code-decorator-1.2.3.vsix
+  https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.3.0/code-decorator-1.3.0.vsix
 
 2. In VS Code: open the Command Palette (Ctrl+Shift+P) → "Extensions: Install from VSIX..."
 3. Select the downloaded `.vsix` file and reload the editor.
@@ -182,14 +259,14 @@ Option A — Manual download and install
 Option B — Command line (macOS / Linux)
 ```bash
 # Download and install
-curl -L "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.3/code-decorator-1.2.3.vsix" -o code-decorator.vsix
+curl -L "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.3.0/code-decorator-1.3.0.vsix" -o code-decorator.vsix
 code --install-extension code-decorator.vsix
 ```
 
 Option C — PowerShell (Windows)
 ```powershell
 # Download and install
-Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.2.3/code-decorator-1.2.3.vsix" -OutFile "code-decorator.vsix"
+Invoke-WebRequest -Uri "https://github.com/narrentum/VS-Code-Decorator/releases/download/v1.3.0/code-decorator-1.3.0.vsix" -OutFile "code-decorator.vsix"
 code --install-extension code-decorator.vsix
 ```
 
@@ -206,6 +283,8 @@ npm install
 ```
 3. Build and package (creates a VSIX with the current version):
 ```bash
+npm run compile:native
+npm run compile
 # install vsce if you don't have it
 npm install -g vsce
 # package extension (the produced file will include the version from package.json)
@@ -217,6 +296,7 @@ vsce package
 ## 🎯 Advanced Features
 
 - **Regex Support**: Both condition and pattern support regular expressions
+- **Regex Safety**: Invalid regexes and regex timeouts are reported to the `Code Decorator` Output Channel without blocking the VS Code Extension Host
 - **Rule Priority**: Rules are processed in order, each with independent styling
 - **Individual Control**: Enable/disable individual rules without affecting others
 - **Live Updates**: Changes in settings apply immediately without restart

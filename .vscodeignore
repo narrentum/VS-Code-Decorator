@@ -9,3 +9,7 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+native/**/bin/**
+native/**/obj/**
+native/CodeDecorator.Core.Tests/**
+native/**/.DS_Store

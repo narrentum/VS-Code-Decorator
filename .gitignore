@@ -2,5 +2,11 @@ out
 dist
 node_modules
 .vscode-test/
-*.vsix
-!code-decorator-v1.1.0.vsix
+
+# macOS
+.DS_Store
+
+# .NET
+**/bin/
+**/obj/
+**/publish/
